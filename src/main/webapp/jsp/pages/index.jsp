@@ -26,8 +26,8 @@
 </form>
 </div>
 <a href="/ViewProducts" class="push_button blue">Show products </a>
-<a href="jsp/pages/productsDeleted.jsp" class="push_button red">Delete all products </a>
-
+<a href="jsp/pages/productsDeleted.jsp" class="push_button red">Delete  products </a>
+kk
 
 </body>
 </html>
