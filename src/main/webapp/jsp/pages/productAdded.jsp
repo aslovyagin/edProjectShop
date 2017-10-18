@@ -1,4 +1,4 @@
-<%@ page import="dto.Product" %>
+<%@ page import="model.Product" %>
 <%@ page import="data.daoImpl.ProductDao" %><%--
   Created by IntelliJ IDEA.
   User: allexeyVS

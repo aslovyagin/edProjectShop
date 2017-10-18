@@ -1,7 +1,7 @@
 package servlets;
 
 import data.daoImpl.ProductDao;
-import dto.Product;
+import model.Product;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

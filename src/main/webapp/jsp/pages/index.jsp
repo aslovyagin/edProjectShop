@@ -2,14 +2,14 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*, java.text.*" %>
-<%@ page import="dto.Product" %>
+<%@ page import="model.Product" %>
 <%@ page import="data.daoImpl.ProductDao" %>
 
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Добро пожаловать, JSP!</title>
-    <link rel="stylesheet" type="text/css" href="theme.css">
+    <link rel="stylesheet" type="text/css" href="css/theme.css">
 </head>
 <body>
 <div class="form-style">

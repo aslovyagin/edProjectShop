@@ -1,7 +1,7 @@
 package data.daoImpl;
 
 import data.DaoInterface;
-import dto.Product;
+import model.Product;
 import data.ConnectionFactory;
 
 import java.sql.*;
