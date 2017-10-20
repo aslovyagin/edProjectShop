@@ -4,6 +4,8 @@
 <%@ page import="java.util.*, java.text.*" %>
 <%@ page import="model.Product" %>
 <%@ page import="data.daoImpl.ProductDao" %>
+<%@ page import="model.User" %>
+<%@ page import="data.daoImpl.UserDao" %>
 
 <html>
 <head>
@@ -27,7 +29,6 @@
 </div>
 <a href="/ViewProducts" class="push_button blue">Show products </a>
 <a href="jsp/pages/productsDeleted.jsp" class="push_button red">Delete  products </a>
-kk
-
+<a href="/logout" class="push_button red">Exit</a>
 </body>
 </html>

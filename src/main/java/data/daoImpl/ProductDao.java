@@ -9,9 +9,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class ProductDao implements DaoInterface<Product> {
+public class ProductDao implements DaoInterface<Product, Integer> {
     @Override
-    public Product get(int id) {
+    public Product get(Integer id) {
         Connection connection = ConnectionFactory.getConnection();
         try {
             Statement stmt = connection.createStatement();
@@ -82,7 +82,7 @@ public class ProductDao implements DaoInterface<Product> {
     }
 
     @Override
-    public boolean delete(int id) {
+    public boolean delete(Integer id) {
         Connection connection = ConnectionFactory.getConnection();
         try {
             Statement stmt = connection.createStatement();

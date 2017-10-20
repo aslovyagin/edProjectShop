@@ -3,10 +3,10 @@ package data;
 
 import java.util.Set;
 
-public interface DaoInterface<T> {
+public interface DaoInterface<T,V> {
 
 
-    T get(int id);
+    T get(V id);
 
     Set<T> getAll();
 
@@ -14,5 +14,5 @@ public interface DaoInterface<T> {
 
     boolean update(T item);
 
-    boolean delete(int id);
+    boolean delete(V id);
 }

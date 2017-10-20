@@ -23,7 +23,7 @@ public class ViewProducts extends HttpServlet {
     public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
             throws IOException {
         try {
-            processRequest(httpServletRequest,  httpServletResponse);
+            processRequest(httpServletRequest, httpServletResponse);
         } catch (ServletException e) {
             e.printStackTrace();
         }
