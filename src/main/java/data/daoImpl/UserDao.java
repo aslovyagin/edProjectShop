@@ -1,7 +1,7 @@
 package data.daoImpl;
 
-import data.ConnectionFactory;
 import data.DaoInterface;
+import data.pool.ConnectionPool;
 import model.User;
 
 import java.sql.*;
@@ -9,13 +9,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class UserDao implements DaoInterface<User, String> {
+    private ConnectionPool pool = ConnectionPool.getInstance();
 
     @Override
     public User get(String login) {
-        Connection connection = ConnectionFactory.getConnection();
+        Connection connection = pool.getConnection();
         try {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM user WHERE login=" + login);
+
             if (rs.next()) {
                 return extractUserFromResultSet(rs);
             }
@@ -27,7 +29,7 @@ public class UserDao implements DaoInterface<User, String> {
 
     @Override
     public Set<User> getAll() {
-        Connection connection = ConnectionFactory.getConnection();
+        Connection connection = pool.getConnection();
         try {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM user");
@@ -43,10 +45,9 @@ public class UserDao implements DaoInterface<User, String> {
         return null;
     }
 
-
     @Override
     public boolean insert(User user) {
-        Connection connection = ConnectionFactory.getConnection();
+        Connection connection = pool.getConnection();
         try {
             PreparedStatement ps = connection.prepareStatement("INSERT INTO user VALUES (?, ?)");
             ps.setString(1, user.getLogin());
@@ -63,7 +64,7 @@ public class UserDao implements DaoInterface<User, String> {
 
     @Override
     public boolean update(User user) {
-        Connection connection = ConnectionFactory.getConnection();
+        Connection connection = pool.getConnection();
         try {
             PreparedStatement ps = connection.prepareStatement("UPDATE user SET password=? WHERE login=?");
             ps.setString(1, user.getPassword());
@@ -79,7 +80,7 @@ public class UserDao implements DaoInterface<User, String> {
 
     @Override
     public boolean delete(String login) {
-        Connection connection = ConnectionFactory.getConnection();
+        Connection connection = pool.getConnection();
         try {
             Statement stmt = connection.createStatement();
             int i = stmt.executeUpdate("DELETE FROM user WHERE id=" + login);
@@ -93,7 +94,7 @@ public class UserDao implements DaoInterface<User, String> {
     }
 
     public boolean deleteAll() {
-        Connection connection = ConnectionFactory.getConnection();
+        Connection connection = pool.getConnection();
         try {
             Statement stmt = connection.createStatement();
             int i = stmt.executeUpdate("DELETE  FROM user");
@@ -114,7 +115,7 @@ public class UserDao implements DaoInterface<User, String> {
     }
 
     public boolean checkPassword(String login, String password) {
-        Connection connection = ConnectionFactory.getConnection();
+        Connection connection = pool.getConnection();
         User user = new User();
         try {
             Statement stmt = connection.createStatement();

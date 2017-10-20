@@ -1,18 +1,19 @@
 package data.daoImpl;
 
 import data.DaoInterface;
+import data.pool.ConnectionPool;
 import model.Product;
-import data.ConnectionFactory;
 
 import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
 
-
 public class ProductDao implements DaoInterface<Product, Integer> {
+    ConnectionPool pool = ConnectionPool.getInstance();
+
     @Override
     public Product get(Integer id) {
-        Connection connection = ConnectionFactory.getConnection();
+        Connection connection = pool.getConnection();
         try {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM product WHERE id=" + id);
@@ -27,7 +28,7 @@ public class ProductDao implements DaoInterface<Product, Integer> {
 
     @Override
     public Set<Product> getAll() {
-        Connection connection = ConnectionFactory.getConnection();
+        Connection connection = pool.getConnection();
         try {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM product");
@@ -43,10 +44,9 @@ public class ProductDao implements DaoInterface<Product, Integer> {
         return null;
     }
 
-
     @Override
     public boolean insert(Product product) {
-        Connection connection = ConnectionFactory.getConnection();
+        Connection connection = pool.getConnection();
         try {
             PreparedStatement ps = connection.prepareStatement("INSERT INTO product VALUES (NULL, ?, ?, ?)");
             ps.setInt(1, product.getPrice());
@@ -64,7 +64,7 @@ public class ProductDao implements DaoInterface<Product, Integer> {
 
     @Override
     public boolean update(Product product) {
-        Connection connection = ConnectionFactory.getConnection();
+        Connection connection = pool.getConnection();
         try {
             PreparedStatement ps = connection.prepareStatement("UPDATE user SET price=?, name=?, description=? WHERE id=?");
             ps.setInt(1, product.getPrice());
@@ -83,7 +83,7 @@ public class ProductDao implements DaoInterface<Product, Integer> {
 
     @Override
     public boolean delete(Integer id) {
-        Connection connection = ConnectionFactory.getConnection();
+        Connection connection = pool.getConnection();
         try {
             Statement stmt = connection.createStatement();
             int i = stmt.executeUpdate("DELETE FROM product WHERE id=" + id);
@@ -97,7 +97,7 @@ public class ProductDao implements DaoInterface<Product, Integer> {
     }
 
     public boolean deleteAll() {
-        Connection connection = ConnectionFactory.getConnection();
+        Connection connection = pool.getConnection();
         try {
             Statement stmt = connection.createStatement();
             int i = stmt.executeUpdate("DELETE  FROM product");
