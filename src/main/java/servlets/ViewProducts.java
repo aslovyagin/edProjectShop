@@ -41,8 +41,6 @@ public class ViewProducts extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-
-        HttpSession session = request.getSession(true);
         PrintWriter out = response.getWriter();
         Set<Product> products = new ProductDao().getAll();
         out.println("<html>");

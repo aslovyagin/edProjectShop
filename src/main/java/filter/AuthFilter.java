@@ -14,7 +14,7 @@ import java.util.List;
 
 public class AuthFilter implements Filter {
 
-    private List<String> pathFilters = Arrays.asList(new String[]{"ViewProducts", "index.jsp", ""});
+    private List<String> pathFilters = Arrays.asList(new String[]{"ViewProducts", ""});
 
     public AuthFilter() {
 

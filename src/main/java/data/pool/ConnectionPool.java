@@ -1,8 +1,15 @@
 package data.pool;
 
+import org.hsqldb.cmdline.SqlFile;
+import org.hsqldb.cmdline.SqlToolError;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.*;
 import java.util.Map;
 import java.util.Properties;
+import java.util.ResourceBundle;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
@@ -10,28 +17,52 @@ import java.util.concurrent.TimeUnit;
 
 public class ConnectionPool {
 
-    private static IDBParams params = chooseParams();
+    private static IDBParams params;
 
-    private static IDBParams chooseParams() {
-        IDBParams p;
+    static {
+        ResourceBundle bundle = ResourceBundle.getBundle("db");
 
+        if (bundle.getKeys().hasMoreElements())
+            UseStandaloneDb(bundle);
+        else
+            UseEmbeddedDb();
+    }
+
+    private static void UseStandaloneDb(ResourceBundle bundle) {
         try {
-            p = new DBParamsFromBundle("hsqldb");
-            Class.forName(p.getDriver());
-            DriverManager.getConnection(p.getUrl(), p.getUser(), p.getPassword());
-            return p;
-        } catch (SQLException | ClassNotFoundException ignored) {
+            params = new DBParamsFromBundle(bundle);
+            Class.forName(params.getDriver());
+            DriverManager.getConnection(
+                    params.getUrl(),
+                    params.getUser(),
+                    params.getPassword());
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
+    }
 
-        try {
-            p = new DBParamsFromBundle("mysqldb");
-            Class.forName(p.getDriver());
-            DriverManager.getConnection(p.getUrl(), p.getUser(), p.getPassword());
-            return p;
-        } catch (SQLException | ClassNotFoundException ignored) {
+    private static void UseEmbeddedDb() {
+        try (InputStreamReader input = new InputStreamReader(
+                ConnectionPool.class.getClassLoader().getResourceAsStream(
+                        "create_db.sql"))) {
+
+            params = new DBParamsFromArgs("org.hsqldb.jdbcDriver",
+                    "jdbc:hsqldb:mem:shop", "sa", "", "5");
+
+            Class.forName(params.getDriver());
+
+            SqlFile sqlFile = new SqlFile(input, "init", System.out,
+                    "UTF-8", false, new File("."));
+
+            sqlFile.setConnection(DriverManager.getConnection(
+                    params.getUrl(),
+                    params.getUser(),
+                    params.getPassword()));
+
+            sqlFile.execute();
+        } catch (ClassNotFoundException | SQLException | IOException | SqlToolError e) {
+            throw new RuntimeException(e);
         }
-
-        throw new RuntimeException("Can not connect to db");
     }
 
     private static BlockingQueue<PooledConnection> connectionQueue;
@@ -60,11 +91,11 @@ public class ConnectionPool {
                                     params.getUrl(),
                                     params.getUser(),
                                     params.getPassword())));
-
-                return pool;
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+
+            return pool;
         }
     }
 
@@ -366,6 +397,8 @@ public class ConnectionPool {
     }
 }
 
+//    // old aslovyagin's code
+//
 //    public static final String URL = "jdbc:mysql://localhost:3306/onlineShop";
 //    public static final String USER = "root";
 //    public static final String PASS = "root";

@@ -1,23 +1,33 @@
 package model;
 
-public class User {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    private String login;
-    private String password;
+import java.util.Comparator;
 
-    public String getLogin() {
-        return login;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class User implements Comparable<User> {
+    int id;
+    String lastName;
+    String firstName;
+    String login;
+    String password;
+
+    @Override
+    public int compareTo(User User) {
+        Comparator<User> cmp1 = Comparator.comparing(a -> a.lastName);
+        Comparator<User> cmp2 = Comparator.comparing(a -> a.firstName);
+        Comparator<User> cmp3 = Comparator.comparing(a -> a.id);
+        Comparator<User> cmp = cmp1.thenComparing(cmp2).thenComparing(cmp3);
+
+        return cmp.compare(this, User);
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public String toString() {
+        return lastName + " " + firstName;
     }
 }

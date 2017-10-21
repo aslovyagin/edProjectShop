@@ -1,41 +1,34 @@
 package model;
 
-public class Product {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.text.DecimalFormat;
+import java.util.Comparator;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Product implements Comparable<Product> {
 
     int id;
     String name;
     int price;
     String description;
 
-    public int getId() {
-        return id;
+    @Override
+    public int compareTo(Product product) {
+        Comparator<Product> cmp1 = Comparator.comparing(p -> p.name);
+        Comparator<Product> cmp2 = Comparator.comparing(p -> p.id);
+        Comparator<Product> cmp = cmp1.thenComparing(cmp2);
+
+        return cmp.compare(this, product);
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    @Override
+    public String toString() {
+        DecimalFormat df = new DecimalFormat("0.00\u20BD"); //₽
+        return name + " : " + df.format(price);
     }
 }

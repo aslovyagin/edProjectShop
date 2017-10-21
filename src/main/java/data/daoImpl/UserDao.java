@@ -13,125 +13,117 @@ public class UserDao implements DaoInterface<User, String> {
 
     @Override
     public User get(String login) {
-        Connection connection = pool.getConnection();
-        try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM user WHERE login=" + login);
+        try (Connection con = pool.getConnection();
+             PreparedStatement ps = con.prepareStatement(
+                     "SELECT * FROM user WHERE login = ?")) {
 
-            if (rs.next()) {
-                return extractUserFromResultSet(rs);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            ps.setString(1, login);
+            ResultSet rs = ps.executeQuery();
+
+            return rs.next()
+                    ? extractUserFromResultSet(rs)
+                    : null;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     @Override
     public Set<User> getAll() {
-        Connection connection = pool.getConnection();
-        try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM user");
-            Set products = new HashSet();
-            while (rs.next()) {
-                User user = extractUserFromResultSet(rs);
-                products.add(user);
-            }
+        try (Connection con = pool.getConnection()) {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT password FROM user");
+
+            Set<User> products = new HashSet<>();
+            while (rs.next())
+                products.add(extractUserFromResultSet(rs));
+
             return products;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     @Override
     public boolean insert(User user) {
-        Connection connection = pool.getConnection();
-        try {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO user VALUES (?, ?)");
+        try (Connection con = pool.getConnection();
+             PreparedStatement ps = con.prepareStatement(
+                     "INSERT INTO user VALUES (?, ?)")) {
+
             ps.setString(1, user.getLogin());
             ps.setString(2, user.getPassword());
-            int i = ps.executeUpdate();
-            if (i == 1) {
-                return true;
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+
+            return ps.executeUpdate() == 1;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return false;
     }
 
     @Override
     public boolean update(User user) {
-        Connection connection = pool.getConnection();
-        try {
-            PreparedStatement ps = connection.prepareStatement("UPDATE user SET password=? WHERE login=?");
+        try (Connection con = pool.getConnection();
+             PreparedStatement ps = con.prepareStatement(
+                     "UPDATE user SET password = ? WHERE login = ?")) {
+
             ps.setString(1, user.getPassword());
-            int i = ps.executeUpdate();
-            if (i == 1) {
-                return true;
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            ps.setString(2, user.getLogin());
+
+            return ps.executeUpdate() == 1;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return false;
     }
 
     @Override
     public boolean delete(String login) {
-        Connection connection = pool.getConnection();
-        try {
-            Statement stmt = connection.createStatement();
-            int i = stmt.executeUpdate("DELETE FROM user WHERE id=" + login);
-            if (i == 1) {
-                return true;
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        try (Connection con = pool.getConnection();
+             PreparedStatement ps = con.prepareStatement(
+                     "DELETE FROM user WHERE login = ?")) {
+
+            ps.setString(1, login);
+
+            return ps.executeUpdate() == 1;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return false;
     }
 
     public boolean deleteAll() {
-        Connection connection = pool.getConnection();
-        try {
-            Statement stmt = connection.createStatement();
-            int i = stmt.executeUpdate("DELETE  FROM user");
-            if (i == 1) {
-                return true;
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        try (Connection con = pool.getConnection();
+             Statement stmt = con.createStatement()) {
+
+            return stmt.executeUpdate("DELETE FROM user") == 1;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return false;
     }
 
     private User extractUserFromResultSet(ResultSet rs) throws SQLException {
-        User user = new User();
-        user.setLogin(rs.getString("login"));
-        user.setPassword(rs.getString("password"));
-        return user;
+        return new User(
+                rs.getInt("id"),
+                rs.getString("lastName"),
+                rs.getString("firstName"),
+                rs.getString("login"),
+                rs.getString("password")
+        );
     }
 
     public boolean checkPassword(String login, String password) {
-        Connection connection = pool.getConnection();
-        User user = new User();
-        try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM user WHERE login=" + login);
-            if (rs.next()) {
-                user.setLogin(rs.getString("login"));
-                user.setPassword(rs.getString("password"));
+        try (Connection con = pool.getConnection();
+             PreparedStatement ps = con.prepareStatement(
+                     "SELECT password FROM user WHERE login = ?")) {
 
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        if (password.equals("\"" + user.getPassword() + "\"")) {
-            return true;
-        } else {
-            return false;
+            ps.setString(1, login);
+            ResultSet rs = ps.executeQuery();
+
+            return rs.next() && password.equals(rs.getString("password"));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }
