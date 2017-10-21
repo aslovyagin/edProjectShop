@@ -17,7 +17,7 @@
 <div class="form-style">
 <h1>Добро пожаловать!</h1>
 
-<form name="addProduct" action="jsp/pages/productAdded.jsp" method="POST">
+<form name="addProduct" action="jsp/pages/productAddedTEST.jsp" method="POST">
     <input type="text" placeholder="name" name="name" value="" size="50"/>
     <br>
     <input type="text" placeholder="price" name="price" value="" size="50"/>
@@ -28,7 +28,7 @@
 </form>
 </div>
 <a href="/ViewProducts" class="push_button blue">Show products </a>
-<a href="jsp/pages/productsDeleted.jsp" class="push_button red">Delete  products </a>
-<a href="/logout" class="push_button red">Exit</a>
+<a href="jsp/pages/productsDeletedTEST.jsp" class="push_button red">Delete  products </a>
+<a href="/logout" class="push_button red">LOG OUT</a>
 </body>
 </html>

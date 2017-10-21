@@ -27,15 +27,20 @@ public class AuthFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
+
+
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession(false);
         HttpServletResponse res = (HttpServletResponse) response;
         String loginURI = req.getContextPath() + "/login";
+        String regURI = req.getContextPath() + "/reg";
+
 
         boolean loggedIn = session != null && session.getAttribute("user") != null;
         boolean loginRequest = req.getRequestURI().equals(loginURI);
+        boolean regRequest = req.getRequestURI().equals(regURI);
 
-        if (loggedIn || loginRequest) {
+        if (loggedIn || loginRequest || regRequest) {
             filterChain.doFilter(request, response);
         } else {
             res.sendRedirect(loginURI);

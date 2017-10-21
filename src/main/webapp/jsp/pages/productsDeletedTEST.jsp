@@ -13,6 +13,6 @@
 <body>
 <%= new ProductDao().deleteAll() %>
 <h1>Все записи удалены</h1>
-<a href="../../"> Back </a>
+
 </body>
 </html>

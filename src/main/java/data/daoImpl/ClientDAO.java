@@ -2,22 +2,22 @@ package data.daoImpl;
 
 import data.ConnectionFactory;
 import data.DaoInterface;
-import data.pool.ConnectionPool;
-import model.User;
+import model.Client;
+import model.Product;
+import util.Status;
 
 import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
 
-public class UserDao implements DaoInterface<User, String> {
+public class ClientDAO implements DaoInterface<Client, Integer> {
 
     @Override
-    public User get(String login) {
+    public Client get(Integer id) {
         Connection connection = ConnectionFactory.getConnection();
         try {
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM user WHERE login=" + login);
-
+            ResultSet rs = stmt.executeQuery("SELECT * FROM client WHERE id=" + id);
             if (rs.next()) {
                 return extractUserFromResultSet(rs);
             }
@@ -28,17 +28,17 @@ public class UserDao implements DaoInterface<User, String> {
     }
 
     @Override
-    public Set<User> getAll() {
+    public Set<Client> getAll() {
         Connection connection = ConnectionFactory.getConnection();
         try {
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM user");
-            Set products = new HashSet();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM client");
+            Set clients = new HashSet();
             while (rs.next()) {
-                User user = extractUserFromResultSet(rs);
-                products.add(user);
+                Client client = extractUserFromResultSet(rs);
+                clients.add(client);
             }
-            return products;
+            return clients;
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -46,12 +46,14 @@ public class UserDao implements DaoInterface<User, String> {
     }
 
     @Override
-    public boolean insert(User user) {
+    public boolean insert(Client client) {
         Connection connection = ConnectionFactory.getConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO user VALUES (?, ?)");
-            ps.setString(1, user.getLogin());
-            ps.setString(2, user.getPassword());
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO client VALUES (NULL, ?, ?, ?, ?)");
+            ps.setString(1, client.getFirstName());
+            ps.setString(2, client.getSurName());
+            ps.setString(3, client.getStatus().toString());
+            ps.setString(4, client.getAdress());
             int i = ps.executeUpdate();
             if (i == 1) {
                 return true;
@@ -63,11 +65,14 @@ public class UserDao implements DaoInterface<User, String> {
     }
 
     @Override
-    public boolean update(User user) {
+    public boolean update(Client client) {
         Connection connection = ConnectionFactory.getConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement("UPDATE user SET password=? WHERE login=?");
-            ps.setString(1, user.getPassword());
+            PreparedStatement ps = connection.prepareStatement("UPDATE client SET firstName=?, surName=?, status=?, adress=? WHERE id=?");
+            ps.setString(1, client.getFirstName());
+            ps.setString(2, client.getSurName());
+            ps.setString(3, client.getStatus().toString());
+            ps.setString(4, client.getAdress());
             int i = ps.executeUpdate();
             if (i == 1) {
                 return true;
@@ -79,11 +84,11 @@ public class UserDao implements DaoInterface<User, String> {
     }
 
     @Override
-    public boolean delete(String login) {
+    public boolean delete(Integer id) {
         Connection connection = ConnectionFactory.getConnection();
         try {
             Statement stmt = connection.createStatement();
-            int i = stmt.executeUpdate("DELETE FROM user WHERE id=" + login);
+            int i = stmt.executeUpdate("DELETE FROM client WHERE id=" + id);
             if (i == 1) {
                 return true;
             }
@@ -97,7 +102,7 @@ public class UserDao implements DaoInterface<User, String> {
         Connection connection = ConnectionFactory.getConnection();
         try {
             Statement stmt = connection.createStatement();
-            int i = stmt.executeUpdate("DELETE  FROM user");
+            int i = stmt.executeUpdate("DELETE  FROM client");
             if (i == 1) {
                 return true;
             }
@@ -107,11 +112,14 @@ public class UserDao implements DaoInterface<User, String> {
         return false;
     }
 
-
-    private User extractUserFromResultSet(ResultSet rs) throws SQLException {
-        User user = new User();
-        user.setLogin(rs.getString("login"));
-        user.setPassword(rs.getString("password"));
-        return user;
+    private Client extractUserFromResultSet(ResultSet rs) throws SQLException {
+        Client client = new Client();
+        client.setId(rs.getInt("id"));
+        client.setFirstName(rs.getString("firstName"));
+        client.setSurName(rs.getString("surName"));
+        client.setAdress(rs.getString("adress"));
+        client.setStatus(Status.valueOf(rs.getString("status")));
+        return client;
     }
+
 }

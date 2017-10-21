@@ -2,6 +2,7 @@ package servlets;
 
 import data.daoImpl.ProductDao;
 import model.Product;
+import service.ProductService;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -44,7 +45,7 @@ public class ViewProducts extends HttpServlet {
 
         HttpSession session = request.getSession(true);
         PrintWriter out = response.getWriter();
-        Set<Product> products = new ProductDao().getAll();
+        Set<Product> products = ProductService.getAllProducts();
         out.println("<html>");
         out.println("<head>");
         out.println("<title>Hola</title>");

@@ -17,6 +17,16 @@
         <url-pattern>/ViewUsers</url-pattern>
     </servlet-mapping>
 
+
+    <servlet>
+        <servlet-name>RegServlet</servlet-name>
+        <servlet-class>servlets.RegServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegServlet</servlet-name>
+        <url-pattern>/reg</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>ViewProducts</servlet-name>
         <servlet-class>servlets.ViewProducts</servlet-class>

@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
 
         if (user != null && new AuthService().checkPassword("\"" + username + "\"", "\"" + password + "\"")) {
             httpSession.setAttribute("user", user);
-            RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/jsp/pages/index.jsp");
+            RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/jsp/pages/indexTEST.jsp");
             try {
                 requestDispatcher.forward(request, response);
             } catch (ServletException e) {
@@ -39,11 +39,11 @@ public class LoginServlet extends HttpServlet {
             return;
 
         }
-        request.getRequestDispatcher("/jsp/pages/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/jsp/pages/loginTEST.jsp").forward(request, response);
 
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("jsp/pages/login.jsp").forward(request, response);
+        request.getRequestDispatcher("jsp/pages/loginTEST.jsp").forward(request, response);
     }
 }
