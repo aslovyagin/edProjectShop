@@ -2,6 +2,7 @@ package servlets;
 
 import data.daoImpl.UserDao;
 import model.User;
+import service.AuthService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,6 +19,7 @@ public class LoginServlet extends HttpServlet {
 
     }
 
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession httpSession = request.getSession();
@@ -26,8 +28,8 @@ public class LoginServlet extends HttpServlet {
 
         User user = new UserDao().get("\"" + username + "\"");
 
-        if (user != null && new UserDao().checkPassword("\"" + username + "\"", "\"" + password + "\"")) {
-            httpSession.setAttribute("PRINCIPAL", user);
+        if (user != null && new AuthService().checkPassword("\"" + username + "\"", "\"" + password + "\"")) {
+            httpSession.setAttribute("user", user);
             RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher("/jsp/pages/index.jsp");
             try {
                 requestDispatcher.forward(request, response);
@@ -37,7 +39,11 @@ public class LoginServlet extends HttpServlet {
             return;
 
         }
-        response.sendRedirect("jsp/pages/login.jsp");
+        request.getRequestDispatcher("/jsp/pages/login.jsp").forward(request, response);
 
+    }
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("jsp/pages/login.jsp").forward(request, response);
     }
 }

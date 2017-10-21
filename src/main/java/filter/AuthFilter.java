@@ -14,7 +14,6 @@ import java.util.List;
 
 public class AuthFilter implements Filter {
 
-    private List<String> pathFilters = Arrays.asList(new String[]{"ViewProducts", "index.jsp", ""});
 
     public AuthFilter() {
 
@@ -28,20 +27,19 @@ public class AuthFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
-        String uri = ((HttpServletRequest) request).getRequestURI();
-        String path = StringUtils.substringAfterLast(uri, "/");
-        if (!pathFilters.contains(path)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-        HttpSession session = ((HttpServletRequest) request).getSession();
-        User user = (User) session.getAttribute("PRINCIPAL");
-        if (user != null) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpSession session = req.getSession(false);
+        HttpServletResponse res = (HttpServletResponse) response;
+        String loginURI = req.getContextPath() + "/login";
 
-        ((HttpServletResponse) response).sendRedirect("jsp/pages/login.jsp");
+        boolean loggedIn = session != null && session.getAttribute("user") != null;
+        boolean loginRequest = req.getRequestURI().equals(loginURI);
+
+        if (loggedIn || loginRequest) {
+            filterChain.doFilter(request, response);
+        } else {
+            res.sendRedirect(loginURI);
+        }
     }
 
     @Override
@@ -49,3 +47,4 @@ public class AuthFilter implements Filter {
 
     }
 }
+
