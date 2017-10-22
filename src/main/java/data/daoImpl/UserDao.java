@@ -3,6 +3,7 @@ package data.daoImpl;
 import data.DaoInterface;
 import data.pool.ConnectionPool;
 import model.User;
+import org.apache.commons.lang3.NotImplementedException;
 
 import java.sql.*;
 import java.util.HashSet;
@@ -15,7 +16,7 @@ public class UserDao implements DaoInterface<User, String> {
     public User get(String login) {
         try (Connection con = pool.getConnection();
              PreparedStatement ps = con.prepareStatement(
-                     "SELECT * FROM user WHERE login = ?")) {
+                     "SELECT login, password FROM user WHERE login = ?")) {
 
             ps.setString(1, login);
             ResultSet rs = ps.executeQuery();
@@ -31,15 +32,17 @@ public class UserDao implements DaoInterface<User, String> {
 
     @Override
     public Set<User> getAll() {
-        try (Connection con = pool.getConnection()) {
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT password FROM user");
+        try (Connection con = pool.getConnection();
+             Statement stmt = con.createStatement();
+             ResultSet rs = stmt.executeQuery(
+                     "SELECT login, password FROM user")) {
 
-            Set<User> products = new HashSet<>();
+            Set<User> users = new HashSet<>();
             while (rs.next())
-                products.add(extractUserFromResultSet(rs));
+                users.add(extractUserFromResultSet(rs));
 
-            return products;
+            return users;
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -79,38 +82,21 @@ public class UserDao implements DaoInterface<User, String> {
 
     @Override
     public boolean delete(String login) {
+        if (true)
+            throw new NotImplementedException("should delete linked client " +
+                    "and then user will be deleted automatically " +
+                    "due to ON DELETE CASCADE clause");
+
         try (Connection con = pool.getConnection();
              PreparedStatement ps = con.prepareStatement(
                      "DELETE FROM user WHERE login = ?")) {
 
             ps.setString(1, login);
-
             return ps.executeUpdate() == 1;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public boolean deleteAll() {
-        try (Connection con = pool.getConnection();
-             Statement stmt = con.createStatement()) {
-
-            return stmt.executeUpdate("DELETE FROM user") == 1;
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private User extractUserFromResultSet(ResultSet rs) throws SQLException {
-        return new User(
-                rs.getInt("id"),
-                rs.getString("lastName"),
-                rs.getString("firstName"),
-                rs.getString("login"),
-                rs.getString("password")
-        );
     }
 
     public boolean checkPassword(String login, String password) {
@@ -122,8 +108,16 @@ public class UserDao implements DaoInterface<User, String> {
             ResultSet rs = ps.executeQuery();
 
             return rs.next() && password.equals(rs.getString("password"));
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private User extractUserFromResultSet(ResultSet rs) throws SQLException {
+        return new User(
+                rs.getString("login"),
+                rs.getString("password")
+        );
     }
 }

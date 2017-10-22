@@ -10,7 +10,7 @@
 
     <servlet>
         <servlet-name>ViewUsers</servlet-name>
-        <servlet-class>servlets.ViewUsers</servlet-class>
+        <servlet-class>servlets.ViewClients</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ViewUsers</servlet-name>

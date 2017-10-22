@@ -10,8 +10,6 @@ import java.io.IOException;
 public class LogoutServlet extends HttpServlet {
 
     public LogoutServlet() {
-
-
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -24,7 +22,5 @@ public class LogoutServlet extends HttpServlet {
         } catch (ServletException e) {
             e.printStackTrace();
         }
-
     }
-
 }

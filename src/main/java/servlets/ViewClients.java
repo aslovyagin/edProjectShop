@@ -1,19 +1,19 @@
 package servlets;
 
-import data.daoImpl.UserDao;
-import model.User;
+import data.daoImpl.ClientDao;
+import model.Client;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collections;
 import java.util.Set;
 
-public class ViewUsers extends HttpServlet {
+public class ViewClients extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -35,7 +35,6 @@ public class ViewUsers extends HttpServlet {
     void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession(true);
         try (PrintWriter out = response.getWriter()) {
 
             out.println("<!DOCTYPE html>\n" +
@@ -54,23 +53,20 @@ public class ViewUsers extends HttpServlet {
                     "        <table>\n" +
                     "            <thead>\n" +
                     "                <tr>\n" +
-                    "                    <th>id</th>\n" +
-                    "                    <th>last name</th>\n" +
-                    "                    <th>first name</th>\n" +
                     "                    <th>login</th>\n" +
+                    "                    <th>lastName</th>\n" +
+                    "                    <th>firstName</th>\n" +
                     "                    <th>status</th>\n" +
                     "                </tr>\n" +
                     "            <tbody>\n");
 
-            Set<User> users = new UserDao().getAll();
-            for (User user : users) {
-                System.out.println(user.getLastName());
-
+            Set<Client> clients = new ClientDao().getAll();
+            for (Client client : clients) {
                 out.println("                 <tr>");
-                out.println("                    <td>" + user.getId() + "</td>");
-                out.println("                    <td>" + user.getLastName() + "</td>");
-                out.println("                    <td>" + user.getFirstName() + "</td>");
-                out.println("                    <td>" + user.getLogin() + "</td>");
+                out.println("                    <td>" + client.getLogin() + "</td>");
+                out.println("                    <td>" + client.getLastName() + "</td>");
+                out.println("                    <td>" + client.getFirstName() + "</td>");
+                out.println("                    <td>" + client.getStatus().toString() + "</td>");
                 out.println("                 </tr>");
             }
 

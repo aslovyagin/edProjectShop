@@ -13,13 +13,13 @@ import java.util.Comparator;
 public class Product implements Comparable<Product> {
 
     int id;
-    String name;
+    String title;
     int price;
     String description;
 
     @Override
     public int compareTo(Product product) {
-        Comparator<Product> cmp1 = Comparator.comparing(p -> p.name);
+        Comparator<Product> cmp1 = Comparator.comparing(p -> p.title);
         Comparator<Product> cmp2 = Comparator.comparing(p -> p.id);
         Comparator<Product> cmp = cmp1.thenComparing(cmp2);
 
@@ -29,6 +29,6 @@ public class Product implements Comparable<Product> {
     @Override
     public String toString() {
         DecimalFormat df = new DecimalFormat("0.00\u20BD"); //₽
-        return name + " : " + df.format(price);
+        return title + " : " + df.format(price);
     }
 }

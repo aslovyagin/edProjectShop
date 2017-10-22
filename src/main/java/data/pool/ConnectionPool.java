@@ -99,8 +99,8 @@ public class ConnectionPool {
         }
     }
 
-    public PooledConnection getConnection() {
-        PooledConnection result = connectionQueue.poll();
+    public Connection getConnection() {
+        Connection result = connectionQueue.poll();
 
         if (result != null)
             return result;

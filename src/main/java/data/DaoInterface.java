@@ -1,10 +1,8 @@
 package data;
 
-
 import java.util.Set;
 
 public interface DaoInterface<T,V> {
-
 
     T get(V id);
 
