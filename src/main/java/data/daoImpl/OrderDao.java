@@ -2,21 +2,20 @@ package data.daoImpl;
 
 import data.ConnectionFactory;
 import data.DaoInterface;
-import data.pool.ConnectionPool;
-import model.Product;
+import model.Order;
+import util.OrderStatus;
 
 import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ProductDao implements DaoInterface<Product, Integer> {
-
+public class OrderDao implements DaoInterface<Order,Integer> {
     @Override
-    public Product get(Integer id) {
+    public Order get(Integer id) {
         Connection connection = ConnectionFactory.getConnection();
         try {
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM product WHERE id=" + id);
+            ResultSet rs = stmt.executeQuery("SELECT * FROM order WHERE orderId=" + id);
             if (rs.next()) {
                 return extractUserFromResultSet(rs);
             }
@@ -27,17 +26,17 @@ public class ProductDao implements DaoInterface<Product, Integer> {
     }
 
     @Override
-    public Set<Product> getAll() {
+    public Set<Order> getAll() {
         Connection connection = ConnectionFactory.getConnection();
         try {
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM product");
-            Set products = new HashSet();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM order");
+            Set orders = new HashSet();
             while (rs.next()) {
-                Product product = extractUserFromResultSet(rs);
-                products.add(product);
+                Order order = extractUserFromResultSet(rs);
+                orders.add(order);
             }
-            return products;
+            return orders;
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -45,18 +44,19 @@ public class ProductDao implements DaoInterface<Product, Integer> {
     }
 
     @Override
-    public int insert(Product product) {
+    public int insert(Order order) {
         Connection connection = ConnectionFactory.getConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO product VALUES (NULL, ?, ?, ?)");
-            ps.setInt(1, product.getPrice());
-            ps.setString(2, product.getName());
-            ps.setString(3, product.getDescription());
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO client VALUES (NULL, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, order.getClientId());
+            ps.setInt(2, order.getTotalPrice());
+            ps.setString(3, order.getStatus().toString());
             int i = ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 return rs.getInt(1);
             }
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -64,14 +64,13 @@ public class ProductDao implements DaoInterface<Product, Integer> {
     }
 
     @Override
-    public boolean update(Product product) {
+    public boolean update(Order order) {
         Connection connection = ConnectionFactory.getConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement("UPDATE user SET price=?, name=?, description=? WHERE id=?");
-            ps.setInt(1, product.getPrice());
-            ps.setString(2, product.getName());
-            ps.setString(3, product.getDescription());
-            ps.setInt(4, product.getId());
+            PreparedStatement ps = connection.prepareStatement("UPDATE order SET cleintId=?, totalPrice=?, status=? WHERE id=?");
+            ps.setInt(1, order.getClientId());
+            ps.setInt(2, order.getTotalPrice());
+            ps.setString(3, order.getStatus().toString());
             int i = ps.executeUpdate();
             if (i == 1) {
                 return true;
@@ -87,7 +86,7 @@ public class ProductDao implements DaoInterface<Product, Integer> {
         Connection connection = ConnectionFactory.getConnection();
         try {
             Statement stmt = connection.createStatement();
-            int i = stmt.executeUpdate("DELETE FROM product WHERE id=" + id);
+            int i = stmt.executeUpdate("DELETE FROM order WHERE orderId=" + id);
             if (i == 1) {
                 return true;
             }
@@ -101,7 +100,7 @@ public class ProductDao implements DaoInterface<Product, Integer> {
         Connection connection = ConnectionFactory.getConnection();
         try {
             Statement stmt = connection.createStatement();
-            int i = stmt.executeUpdate("DELETE  FROM product");
+            int i = stmt.executeUpdate("DELETE  FROM order");
             if (i == 1) {
                 return true;
             }
@@ -111,12 +110,13 @@ public class ProductDao implements DaoInterface<Product, Integer> {
         return false;
     }
 
-    private Product extractUserFromResultSet(ResultSet rs) throws SQLException {
-        Product product = new Product();
-        product.setId(rs.getInt("id"));
-        product.setName(rs.getString("name"));
-        product.setPrice(rs.getInt("price"));
-        product.setDescription(rs.getString("description"));
-        return product;
+    private Order extractUserFromResultSet(ResultSet rs) throws SQLException {
+        Order order = new Order();
+        order.setOrderId(rs.getInt("orderId"));
+        order.setClientId(rs.getInt("clientId"));
+        order.setTotalPrice(rs.getInt("totalPrice"));
+        order.setStatus(OrderStatus.valueOf(rs.getString("status")));
+
+        return order;
     }
 }

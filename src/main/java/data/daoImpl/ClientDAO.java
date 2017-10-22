@@ -3,8 +3,7 @@ package data.daoImpl;
 import data.ConnectionFactory;
 import data.DaoInterface;
 import model.Client;
-import model.Product;
-import util.Status;
+import util.StatusClient;
 
 import java.sql.*;
 import java.util.HashSet;
@@ -46,22 +45,24 @@ public class ClientDAO implements DaoInterface<Client, Integer> {
     }
 
     @Override
-    public boolean insert(Client client) {
+    public int insert(Client client) {
         Connection connection = ConnectionFactory.getConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO client VALUES (NULL, ?, ?, ?, ?)");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO client VALUES (NULL, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, client.getFirstName());
             ps.setString(2, client.getSurName());
             ps.setString(3, client.getStatus().toString());
             ps.setString(4, client.getAdress());
             int i = ps.executeUpdate();
-            if (i == 1) {
-                return true;
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
             }
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return false;
+        return -1;
     }
 
     @Override
@@ -118,7 +119,7 @@ public class ClientDAO implements DaoInterface<Client, Integer> {
         client.setFirstName(rs.getString("firstName"));
         client.setSurName(rs.getString("surName"));
         client.setAdress(rs.getString("adress"));
-        client.setStatus(Status.valueOf(rs.getString("status")));
+        client.setStatus(StatusClient.valueOf(rs.getString("status")));
         return client;
     }
 

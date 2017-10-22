@@ -1,15 +1,14 @@
 package model;
 
-import util.Status;
+import util.StatusClient;
 
 public class Client {
 
     private int id;
     private String firstName;
     private String surName;
-    private Status status;
+    private StatusClient statusClient;
     private String adress;
-    private User user;
 
     public String getFirstName() {
         return firstName;
@@ -27,12 +26,12 @@ public class Client {
         this.surName = surName;
     }
 
-    public Status getStatus() {
-        return status;
+    public StatusClient getStatus() {
+        return statusClient;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setStatus(StatusClient statusClient) {
+        this.statusClient = statusClient;
     }
 
     public String getAdress() {
@@ -43,11 +42,6 @@ public class Client {
         this.adress = adress;
     }
 
-    public void setLoginPassword(String login, String password) {
-        this.user.setLogin(login);
-        this.user.setPassword(password);
-
-    }
 
     public int getId() {
         return id;

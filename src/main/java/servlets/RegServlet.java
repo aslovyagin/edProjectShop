@@ -26,7 +26,7 @@ public class RegServlet extends HttpServlet {
         String adress = request.getParameter("adress");
 
 
-        boolean i = RegService.addCleint(firstName,surName,adress, login,password);
+        boolean added = RegService.addCleint(firstName,surName,adress, login,password);
         request.getRequestDispatcher("jsp/pages/loginTEST.jsp").forward(request, response);
 
     }

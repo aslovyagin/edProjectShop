@@ -10,9 +10,11 @@ public interface DaoInterface<T,V> {
 
     Set<T> getAll();
 
-    boolean insert(T item);
+    int insert(T item);
 
     boolean update(T item);
 
     boolean delete(V id);
+
+
 }

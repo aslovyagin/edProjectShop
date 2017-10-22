@@ -27,6 +27,21 @@ public class UserDao implements DaoInterface<User, String> {
         return null;
     }
 
+    public User get(int id) {
+        Connection connection = ConnectionFactory.getConnection();
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM user WHERE id=" + id);
+
+            if (rs.next()) {
+                return extractUserFromResultSet(rs);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
     @Override
     public Set<User> getAll() {
         Connection connection = ConnectionFactory.getConnection();
@@ -46,20 +61,22 @@ public class UserDao implements DaoInterface<User, String> {
     }
 
     @Override
-    public boolean insert(User user) {
+    public int insert(User user) {
         Connection connection = ConnectionFactory.getConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO user VALUES (?, ?)");
-            ps.setString(1, user.getLogin());
-            ps.setString(2, user.getPassword());
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO user VALUES (?, ?, ?)");
+            ps.setInt(1, user.getId());
+            ps.setString(2, user.getLogin());
+            ps.setString(3, user.getPassword());
             int i = ps.executeUpdate();
-            if (i == 1) {
-                return true;
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return false;
+        return -1;
     }
 
     @Override
@@ -83,7 +100,21 @@ public class UserDao implements DaoInterface<User, String> {
         Connection connection = ConnectionFactory.getConnection();
         try {
             Statement stmt = connection.createStatement();
-            int i = stmt.executeUpdate("DELETE FROM user WHERE id=" + login);
+            int i = stmt.executeUpdate("DELETE FROM user WHERE login=" + login);
+            if (i == 1) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean delete(int id) {
+        Connection connection = ConnectionFactory.getConnection();
+        try {
+            Statement stmt = connection.createStatement();
+            int i = stmt.executeUpdate("DELETE FROM user WHERE id=" + id);
             if (i == 1) {
                 return true;
             }
@@ -110,6 +141,7 @@ public class UserDao implements DaoInterface<User, String> {
 
     private User extractUserFromResultSet(ResultSet rs) throws SQLException {
         User user = new User();
+        user.setId(rs.getInt("id"));
         user.setLogin(rs.getString("login"));
         user.setPassword(rs.getString("password"));
         return user;
