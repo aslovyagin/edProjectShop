@@ -1,5 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=US-ASCII"
+         pageEncoding="US-ASCII" %>
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,9 +12,7 @@
     <header>
         <div>All Clients</div>
     </header>
-
     <div>
-        <%= (new java.util.Date()).toLocaleString()%>
         <table>
             <thead>
                 <tr>
@@ -26,9 +25,9 @@
             <c:forEach items="${clients}" var="client">
                 <tr>
                     <td><c:out value="${client.login}"></c:out></td>
-                    <td>${client.lastName}</td>
-                    <td>${client.firstName}</td>
-                    <td>${client.status}</td>
+                    <td><c:out value="${client.lastName}"></c:out></td>
+                    <td><c:out value="${client.firstName}"></c:out></td>
+                    <td><c:out value="${client.status}"></c:out></td>
                 </tr>
             </c:forEach>
             </tbody>

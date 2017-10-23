@@ -7,9 +7,9 @@ import lombok.Value;
 
 import java.util.Comparator;
 
-@Value
-//@AllArgsConstructor
-//@NoArgsConstructor
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Client implements Comparable<Client> {
 
     String login;

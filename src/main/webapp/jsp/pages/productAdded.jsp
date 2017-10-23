@@ -16,7 +16,7 @@
 
 <%
     Product product = new Product();
-    product.setName(request.getParameter("name"));
+    product.setTitle(request.getParameter("name"));
     product.setDescription(request.getParameter("description"));
     product.setPrice(Integer.parseInt(request.getParameter("price")));
     new ProductDao().insert(product);
