@@ -1,12 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=US-ASCII"
-         pageEncoding="US-ASCII" %>
-<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=utf-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <title>clients</title>
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="lib/css/main.css">
 </head>
 <body>
     <header>

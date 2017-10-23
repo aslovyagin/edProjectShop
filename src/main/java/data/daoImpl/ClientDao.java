@@ -5,8 +5,6 @@ import data.pool.ConnectionPool;
 import model.Client;
 
 import java.sql.*;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 

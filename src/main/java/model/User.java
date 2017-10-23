@@ -25,5 +25,4 @@ public class User implements Comparable<User> {
     public String toString() {
         return login + " : " + password;
     }
-
 }

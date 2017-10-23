@@ -1,10 +1,10 @@
-package filter;
+package web.filter;
 
 import model.User;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.*;
-import javax.servlet.http.HttpServlet;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -12,17 +12,16 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+@WebFilter("/*")
 public class AuthFilter implements Filter {
 
-    private List<String> pathFilters = Arrays.asList(new String[]{"ViewProducts", ""});
+    private List<String> pathFilters = Arrays.asList(new String[]{"", ""});
 
     public AuthFilter() {
-
     }
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
     }
 
     @Override
@@ -41,11 +40,10 @@ public class AuthFilter implements Filter {
             return;
         }
 
-        ((HttpServletResponse) response).sendRedirect("jsp/pages/login.jsp");
+        ((HttpServletResponse) response).sendRedirect("WEB-INF/jsp/pages/login.jsp");
     }
 
     @Override
     public void destroy() {
-
     }
 }

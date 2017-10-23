@@ -1,30 +1,30 @@
 package data.daoImpl;
 
 import data.DaoInterface;
-import model.Cart;
+import model.Order;
 import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.Set;
 
-public class CartDao implements DaoInterface<Cart, String> {
+public class CartDao implements DaoInterface<Order, String> {
 
     @Override
-    public Cart get(String login) {
+    public Order get(String login) {
         throw new NotImplementedException("");
     }
 
     @Override
-    public Set<Cart> getAll() {
+    public Set<Order> getAll() {
         throw new NotImplementedException("");
     }
 
     @Override
-    public boolean insert(Cart item) {
+    public boolean insert(Order item) {
         throw new NotImplementedException("");
     }
 
     @Override
-    public boolean update(Cart item) {
+    public boolean update(Order item) {
         throw new NotImplementedException("");
     }
 
