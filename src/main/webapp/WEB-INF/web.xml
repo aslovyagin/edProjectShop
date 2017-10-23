@@ -9,12 +9,12 @@
     </welcome-file-list>
 
     <servlet>
-        <servlet-name>ViewUsers</servlet-name>
+        <servlet-name>ViewClients</servlet-name>
         <servlet-class>servlets.ViewClients</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ViewUsers</servlet-name>
-        <url-pattern>/ViewUsers</url-pattern>
+        <servlet-name>ViewClients</servlet-name>
+        <url-pattern>/ViewClients</url-pattern>
     </servlet-mapping>
 
     <servlet>

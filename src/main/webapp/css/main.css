@@ -13,7 +13,6 @@
 html, body, div, p, table, a, ol, ul, li {
     padding: 0;
     margin: 0;
-    font-size: 1.2rem;
 }
 header > div {
     font-size: 1.5rem;
@@ -21,59 +20,41 @@ header > div {
     text-align: center;
     margin: 1rem 1rem 2rem;
 }
-table {
-    /*border-spacing: 1rem;*/
-    border-collapse: collapse;
-    margin: auto;
-    text-align:center;
-    text-indent: 1rem;
-}
-a {
-    text-decoration: none;
-    color: #ffffff;
-}
 body {
     background-color: #23241f;
     color: #ffffff;
     font-family: 'Inconsolata', monospace;
-    /*font-size: 1rem;*/
 }
-td {
-    text-align: center;
-    white-space: nowrap;
-    padding-top: 0.4rem;
-    padding-bottom: 0.4rem;
+table {
+    border-collapse: collapse;
+    margin: auto;
+    text-align:center;
 }
-div table tbody tr[class="total"] td {
+th, td {
+    line-height: 2.5rem;
+    min-width: 10rem;
+    /*margin: 0.4rem 1rem 0.4rem 1rem;*/
+    border-bottom: 1rem solid #23241f;
+}
+th {
+    border-bottom: 2px solid white;
+}
+tbody > tr:hover {
+    font-size: 1.15rem;
+	background-color: #3D3F36;
+}
+tr[class="total"] td {
     margin-top: 3rem;
-}
-div table tbody tr:hover {
-    background-color: #3D3F36;
-}
-
-div:first-of-type td:nth-of-type(2) a {
-    display: inline-block;
-    min-width: 5rem;
-    padding: 0.5rem;
-}*/
-div:first-of-type td:nth-of-type(2):hover {
-    font-size: 1em;
-    background-color: #3D3F36;
 }
 table > tbody > tr > td:first-of-type > img {
     height: 2rem;
+    border-radius: .25rem;
 }
-
-img {
-     border-radius: .25rem;
-}
-
 .tooltip {
     /*position: relative;*/
     /*display: inline-block;*/
     /*border-bottom: 1px dotted black;*/
 }
-
 /*.tooltip .tooltiptext {*/
 .tooltiptext {
     visibility: hidden;
@@ -88,12 +69,9 @@ img {
     position: absolute;
     z-index: 1;
 }
-
 .tooltip:hover .tooltiptext {
     visibility: visible;
 }
-
-
 button {
     position:relative;
     /*height: 2rem;*/
@@ -109,7 +87,6 @@ button {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-touch-callout: none;
 }
-
 button,
 button:after,
 button:before {
@@ -123,7 +100,6 @@ button:before {
     -ms-transform-style:preserve-3d;
     transform-style:preserve-3d;
 }
-
 button:after,
 button:before {
     position:absolute;
@@ -137,7 +113,6 @@ button:before {
     -ms-backface-visibility:hidden;
     backface-visibility:hidden;
 }
-
 button:before {
     z-index:2;
     color:#fff;
@@ -161,7 +136,6 @@ button[class="order"] {
 button[class="order"]:before {
      content: "buy";
 }
-
 button:after {
     z-index:1;
     background-color:#999;
@@ -174,11 +148,9 @@ button:after {
     transform:rotateX(180deg);
     content:'';
 }
-
 button:active:before {
     background-color:#3571c8;
 }
-
 button.loading {
     -webkit-transform:rotateX(180deg);
     -moz-transform:rotateX(180deg);

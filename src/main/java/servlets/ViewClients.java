@@ -2,15 +2,19 @@ package servlets;
 
 import data.daoImpl.ClientDao;
 import model.Client;
+import service.ClientService;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 public class ViewClients extends HttpServlet {
@@ -35,46 +39,28 @@ public class ViewClients extends HttpServlet {
     void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        try (PrintWriter out = response.getWriter()) {
+        HttpSession httpSession = request.getSession();
 
-            out.println("<!DOCTYPE html>\n" +
-                    "<html>\n" +
-                    "<head>\n" +
-                    "    <meta charset=\"unicode\">\n" +
-                    "    <title>Clients</title>\n" +
-                    "    <link rel=\"stylesheet\" href=\"css/main.css\">\n" +
-                    "</head>\n" +
-                    "<body>\n" +
-                    "    <header>\n" +
-                    "        <div>Clients List</div>\n" +
-                    "    </header>\n" +
-                    "\n" +
-                    "    <div>\n" +
-                    "        <table>\n" +
-                    "            <thead>\n" +
-                    "                <tr>\n" +
-                    "                    <th>login</th>\n" +
-                    "                    <th>lastName</th>\n" +
-                    "                    <th>firstName</th>\n" +
-                    "                    <th>status</th>\n" +
-                    "                </tr>\n" +
-                    "            <tbody>\n");
+        List<Client> clients = ClientService.getAllClients();
+        System.out.println(clients.size());
+        request.setAttribute("clients", clients);
+//        httpSession.setAttribute("clients", clients1);
 
-            Set<Client> clients = new ClientDao().getAll();
-            for (Client client : clients) {
-                out.println("                 <tr>");
-                out.println("                    <td>" + client.getLogin() + "</td>");
-                out.println("                    <td>" + client.getLastName() + "</td>");
-                out.println("                    <td>" + client.getFirstName() + "</td>");
-                out.println("                    <td>" + client.getStatus().toString() + "</td>");
-                out.println("                 </tr>");
-            }
+//        RequestDispatcher requestDispatcher = getServletContext()
+//                .getRequestDispatcher("/jsp/pages/clients.jsp");
+//        try {
+//            requestDispatcher.forward(request, response);
+//        } catch (ServletException e) {
+//            e.printStackTrace();
+//        }
 
-            out.println("            </tbody>\n" +
-                    "        </table>\n" +
-                    "    </div>\n" +
-                    "</body>\n" +
-                    "</html>");
-        }
+//        request.getRequestDispatcher("/jsp/pages/clients.jsp")
+//                .forward(request, response);
+
+        RequestDispatcher rd = getServletContext()
+                .getRequestDispatcher("/jsp/pages/clients.jsp");
+
+        rd.forward(request, response);
+
     }
 }

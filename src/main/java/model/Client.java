@@ -3,12 +3,13 @@ package model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Value;
 
 import java.util.Comparator;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Value
+//@AllArgsConstructor
+//@NoArgsConstructor
 public class Client implements Comparable<Client> {
 
     String login;
