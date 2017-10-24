@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-@WebFilter("/*")
+@WebFilter(urlPatterns = "/*")
 public class AuthFilter implements Filter {
 
     private List<String> pathFilters = Arrays.asList(new String[]{"", ""});
@@ -25,7 +25,10 @@ public class AuthFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
+            throws IOException, ServletException {
+
+        System.out.println("AuthFilter doFilter");
 
         String uri = ((HttpServletRequest) request).getRequestURI();
         String path = StringUtils.substringAfterLast(uri, "/");
@@ -40,7 +43,7 @@ public class AuthFilter implements Filter {
             return;
         }
 
-        ((HttpServletResponse) response).sendRedirect("WEB-INF/jsp/pages/login.jsp");
+        ((HttpServletResponse) response).sendRedirect("jsp/pages/login.jsp");
     }
 
     @Override

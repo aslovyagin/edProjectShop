@@ -35,7 +35,7 @@ public class ViewClients extends HttpServlet {
 
         request.setAttribute("clients", ClientService.getAllClients());
 
-        request.getRequestDispatcher("WEB-INF/jsp/pages/clients.jsp")
+        request.getRequestDispatcher("jsp/pages/clients.jsp")
                 .forward(request, response);
     }
 }

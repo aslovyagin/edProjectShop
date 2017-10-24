@@ -1,6 +1,8 @@
 package web.servlet;
 
-import service.ProductService;
+import model.Cart;
+import model.User;
+import service.CartService;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -10,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/ViewProducts")
-public class ViewProducts extends HttpServlet {
+@WebServlet("/ViewCart")
+public class ViewCart extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -39,32 +41,14 @@ public class ViewProducts extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        request.setAttribute("allProducts", ProductService.getAllProducts());
+        String login = User.class.cast(request.getSession().getAttribute("PRINCIPAL")).getLogin();
+        Cart cart = CartService.getOrder(login);
 
-        request.getRequestDispatcher("jsp/pages/products.jsp")
+        request.setAttribute("clientProducts", cart.getClientProducts());
+        request.setAttribute("totalPrice", CartService.getTotalPrice(cart));
+        request.setAttribute("totalCount", CartService.getTotalCount(cart));
+
+        request.getRequestDispatcher("jsp/pages/cart.jsp")
                 .forward(request, response);
-
-
-//
-//        PrintWriter out = response.getWriter();
-//        Set<Product> products = new ProductDao().getAll();
-//        out.println("<html>");
-//        out.println("<head>");
-//        out.println("<title>Hola</title>");
-//        out.println("</head>");
-//        out.println("<body bgcolor=\"white\">");
-//        out.println("<hr>");
-//        out.println("<hr>");
-//        out.println("<hr>");
-//        for (Product product : products) {
-//            out.println(product.getTitle());
-//            out.println(product.getPrice());
-//            out.println(product.getDescription());
-//            out.println("<hr>");
-//        }
-//        out.println("</body>");
-//        out.println("</html>");
-//
-//        out.close();
     }
 }

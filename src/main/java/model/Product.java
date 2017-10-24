@@ -12,10 +12,10 @@ import java.util.Comparator;
 @NoArgsConstructor
 public class Product implements Comparable<Product> {
 
-    int id;
-    String title;
-    int price;
-    String description;
+    private int id;
+    private String title;
+    private double price;
+    private String description;
 
     @Override
     public int compareTo(Product product) {

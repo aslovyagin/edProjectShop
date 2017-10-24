@@ -16,7 +16,11 @@ public class CharsetFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
+            throws IOException, ServletException {
+
+        System.out.println("CharsetFilter doFilter");
+
         req.setCharacterEncoding(encoding);
         resp.setCharacterEncoding(encoding);
         chain.doFilter(req, resp);

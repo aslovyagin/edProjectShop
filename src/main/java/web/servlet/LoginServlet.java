@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
         if (user != null && new UserDao().checkPassword(username, password)) {
             httpSession.setAttribute("PRINCIPAL", user);
             RequestDispatcher requestDispatcher = getServletContext()
-                    .getRequestDispatcher("WEB-INF/jsp/pages/index.jsp");
+                    .getRequestDispatcher("/jsp/pages/index.jsp");
             try {
                 requestDispatcher.forward(request, response);
             } catch (ServletException e) {
@@ -38,6 +38,6 @@ public class LoginServlet extends HttpServlet {
             }
             return;
         }
-        response.sendRedirect("WEB-INF/jsp/pages/login.jsp");
+        response.sendRedirect("/jsp/pages/login.jsp");
     }
 }

@@ -1,13 +1,13 @@
--- all CREATE TABLE statements before INSERT INTO for ease of use hsql GUI
+ -- all CREATE TABLE statements before INSERT INTO for ease of use hsql GUI
 -- first execute all CREATE TABLE statements as one script
 -- second execute all INSERT INTO statements as one script
 
 --DELETE FROM client;
 --DELETE FROM product;
---DELETE FROM "order";
+--DELETE FROM cart;
 
---DROP TABLE IF EXISTS order_product;
---DROP TABLE IF EXISTS "order";
+--DROP TABLE IF EXISTS cart_product;
+--DROP TABLE IF EXISTS cart;
 --DROP TABLE IF EXISTS product;
 --DROP TABLE IF EXISTS user;
 --DROP TABLE IF EXISTS client;
@@ -33,15 +33,15 @@ CREATE TABLE product (
   description VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE "order" (
+CREATE TABLE cart (
   id            IDENTITY,
   login         VARCHAR(100) FOREIGN KEY REFERENCES client (login)
                      ON DELETE CASCADE,
   purchase_date TIMESTAMP
 );
 
-CREATE TABLE order_product (
-    order_id      INT FOREIGN KEY REFERENCES "order" (id)
+CREATE TABLE cart_product (
+    cart_id       INT FOREIGN KEY REFERENCES cart (id)
                   ON DELETE CASCADE,
     product_id    INT FOREIGN KEY REFERENCES product (id)
                   ON DELETE CASCADE,
@@ -64,7 +64,7 @@ INSERT INTO product (id, title, price, description) VALUES
 (2, 'watch',      '120', 'wow'),
 (3, 'hammer',     '120', 'nice');
 
-INSERT INTO "order" (id, login, purchase_date) VALUES
+INSERT INTO cart (id, login, purchase_date) VALUES
 (1, 'a', '2017-10-23 17:30:00'),
 (2, 'a', '2017-10-23 20:40:00'),
 (3, 'b', '2017-10-23 16:30:00'),
@@ -73,7 +73,7 @@ INSERT INTO "order" (id, login, purchase_date) VALUES
 (6, 'c', NULL),
 (7, 'b', NULL);
 
-INSERT INTO order_product (order_id, product_id, product_count) VALUES
+INSERT INTO cart_product (cart_id, product_id, product_count) VALUES
 (1, 2, 3),
 (1, 1, 1),
 (2, 3, 3),

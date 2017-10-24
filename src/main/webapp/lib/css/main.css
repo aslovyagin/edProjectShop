@@ -39,12 +39,16 @@ th, td {
 th {
     border-bottom: 2px solid white;
 }
-tbody > tr:hover {
+table.cart > tbody > tr:not(:nth-last-of-type(2)):hover {
     font-size: 1.15rem;
 	background-color: #3D3F36;
 }
-tr[class="total"] td {
-    margin-top: 3rem;
+table:not(.cart) > tbody > tr:hover {
+    font-size: 1.15rem;
+	background-color: #3D3F36;
+}
+tr.total td {
+    color:red;
 }
 table > tbody > tr > td:first-of-type > img {
     height: 2rem;
@@ -63,8 +67,9 @@ table > tbody > tr > td:first-of-type > img {
     color: black;
     /*border-radius: 6px;*/
     border-radius: .25rem;
-    padding: 0.15rem;
-    margin-top: 1rem;
+    padding: 0.3rem;
+    margin-top: 2.5rem;
+    line-height: 1rem;
 
     position: absolute;
     z-index: 1;
@@ -117,6 +122,13 @@ button:before {
     z-index:2;
     color:#fff;
     background-color:#3e87ec;
+    /* background-color:#04910c; */
+}
+button[class="add"]:before {
+     content: "add to cart";
+}
+button[class="add"] {
+     width: 6rem;
 }
 button[class="plus"]:before {
      content: "+";
@@ -130,10 +142,10 @@ button[class="minus"]:before {
 button[class="minus"] {
      width: 2rem;
 }
-button[class="order"] {
+button[class="buy"] {
      width: 4.1rem;
 }
-button[class="order"]:before {
+button[class="buy"]:before {
      content: "buy";
 }
 button:after {
