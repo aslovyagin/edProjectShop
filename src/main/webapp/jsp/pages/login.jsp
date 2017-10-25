@@ -15,6 +15,17 @@
     <input type="text" name="username">
     <input type="text" name="password">
     <input type="submit" value="LOG IN">
+</form>
+
+<hr>
+
+<form action="/reg" method="POST">
+    <input type="text" name="firstName">
+    <input type="text" name="surName">
+    <input type="text" name="login">
+    <input type="text" name="password">
+    <input type="text" name="adress">
+    <input type="submit" value="Register">
 
 </form>
 </body>
