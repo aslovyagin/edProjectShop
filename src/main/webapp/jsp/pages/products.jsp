@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <title>products</title>
-    <link rel="stylesheet" href="lib/css/main.css">
+    <link rel="stylesheet" href="/lib/css/main.css">
 </head>
 <body>
     <header>
@@ -24,7 +24,12 @@
                 <tr>
                     <td class="tooltip"><c:out value="${product.title}"></c:out><span class="tooltiptext"><c:out value="${product.description}"></c:out></span></td>
                     <td><c:out value="${product.price}"></c:out> ₽</td>
-                    <td><button class="add">1</button></td>
+                    <td><button <c:choose>
+                                    <c:when test="${status eq 'ACTIVE'}">class="add"</c:when>
+                                    <c:when test="${status eq 'ADMIN'}">class="edit"</c:when>
+                                    <c:otherwise>error</c:otherwise>
+                                </c:choose>>
+                                1</button></td>
                 </tr>
             </c:forEach>
             </tbody>

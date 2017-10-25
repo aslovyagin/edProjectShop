@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/ViewProducts")
+@WebServlet("/products")
 public class ViewProducts extends HttpServlet {
 
     @Override
@@ -36,35 +36,12 @@ public class ViewProducts extends HttpServlet {
         }
     }
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         request.setAttribute("allProducts", ProductService.getAllProducts());
 
-        request.getRequestDispatcher("jsp/pages/products.jsp")
+        request.getRequestDispatcher("/jsp/pages/products.jsp")
                 .forward(request, response);
-
-
-//
-//        PrintWriter out = response.getWriter();
-//        Set<Product> products = new ProductDao().getAll();
-//        out.println("<html>");
-//        out.println("<head>");
-//        out.println("<title>Hola</title>");
-//        out.println("</head>");
-//        out.println("<body bgcolor=\"white\">");
-//        out.println("<hr>");
-//        out.println("<hr>");
-//        out.println("<hr>");
-//        for (Product product : products) {
-//            out.println(product.getTitle());
-//            out.println(product.getPrice());
-//            out.println(product.getDescription());
-//            out.println("<hr>");
-//        }
-//        out.println("</body>");
-//        out.println("</html>");
-//
-//        out.close();
     }
 }

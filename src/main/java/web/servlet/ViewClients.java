@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/ViewClients")
+@WebServlet("/clients")
 public class ViewClients extends HttpServlet {
 
     @Override
@@ -35,7 +35,7 @@ public class ViewClients extends HttpServlet {
 
         request.setAttribute("clients", ClientService.getAllClients());
 
-        request.getRequestDispatcher("jsp/pages/clients.jsp")
+        request.getRequestDispatcher("/jsp/pages/clients.jsp")
                 .forward(request, response);
     }
 }

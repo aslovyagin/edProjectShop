@@ -1,9 +1,9 @@
 package web.servlet;
 
-import data.daoImpl.UserDao;
-import model.User;
+import model.Client;
+import service.AuthService;
+import service.ClientService;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,26 +18,35 @@ public class LoginServlet extends HttpServlet {
     public LoginServlet() {
     }
 
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession httpSession = request.getSession();
-        String username = request.getParameter("username");
+        String login = request.getParameter("login");
         String password = request.getParameter("password");
 
-        User user = new UserDao().get(username);
+        if (new AuthService().checkPassword(login, password)) {
+            HttpSession session = request.getSession();
 
-        if (user != null && new UserDao().checkPassword(username, password)) {
-            httpSession.setAttribute("PRINCIPAL", user);
-            RequestDispatcher requestDispatcher = getServletContext()
-                    .getRequestDispatcher("/jsp/pages/index.jsp");
-            try {
-                requestDispatcher.forward(request, response);
-            } catch (ServletException e) {
-                e.printStackTrace();
-            }
-            return;
+            session.setAttribute("login", login);
+            Client.Status status = ClientService.getStatus(login);
+            session.setAttribute("status", status);
+
+            if (status == Client.Status.BLOCKED)
+                request.getRequestDispatcher("/jsp/pages/blocked.jsp").forward(request, response);
+            else
+                response.sendRedirect("/products");
+        } else {
+            request.setAttribute("cause", "Login or password is invalid.");
+            request.getRequestDispatcher("/jsp/pages/login.jsp").forward(request, response);
         }
-        response.sendRedirect("/jsp/pages/login.jsp");
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        request.getRequestDispatcher("/jsp/pages/login.jsp")
+                .forward(request, response);
     }
 }

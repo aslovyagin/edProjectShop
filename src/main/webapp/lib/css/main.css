@@ -48,7 +48,7 @@ table:not(.cart) > tbody > tr:hover {
 	background-color: #3D3F36;
 }
 tr.total td {
-    color:red;
+    color: l;
 }
 table > tbody > tr > td:first-of-type > img {
     height: 2rem;
@@ -129,6 +129,12 @@ button[class="add"]:before {
 }
 button[class="add"] {
      width: 6rem;
+}
+button[class="edit"]:before {
+     content: "edit";
+}
+button[class="edit"] {
+     width: 3rem;
 }
 button[class="plus"]:before {
      content: "+";

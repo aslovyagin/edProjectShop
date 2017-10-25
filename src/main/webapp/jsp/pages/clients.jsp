@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <title>clients</title>
-    <link rel="stylesheet" href="lib/css/main.css">
+    <link rel="stylesheet" href="/lib/css/main.css">
 </head>
 <body>
     <header>

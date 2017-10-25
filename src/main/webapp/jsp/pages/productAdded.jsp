@@ -1,28 +1,23 @@
 <%@ page import="model.Product" %>
-<%@ page import="data.daoImpl.ProductDao" %><%--
-  Created by IntelliJ IDEA.
-  User: allexeyVS
-  Date: 16.10.17
-  Time: 3:48
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="data.daoImpl.ProductDao" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Title</title>
-
+    <head>
+        <meta charset="utf-8">
+        <title>product added</title>
+        <link rel="stylesheet" href="/lib/css/main.css">
+    </head>
 </head>
 <body>
-
-<%
-    Product product = new Product();
-    product.setTitle(request.getParameter("title"));
-    product.setDescription(request.getParameter("description"));
-    product.setPrice(Integer.parseInt(request.getParameter("price")));
-    new ProductDao().insert(product);
-
-%>
-<h1>Добавлено</h1>
-
+    <%
+        Product product = new Product();
+        product.setTitle(request.getParameter("title"));
+        product.setDescription(request.getParameter("description"));
+        product.setPrice(Integer.parseInt(request.getParameter("price")));
+        new ProductDao().insert(product);
+    %>
+    <h1>Добавлено</h1>
 </body>
 </html>

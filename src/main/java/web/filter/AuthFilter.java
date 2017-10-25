@@ -1,7 +1,6 @@
 package web.filter;
 
-import model.User;
-import org.apache.commons.lang3.StringUtils;
+import model.Client;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -9,13 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 @WebFilter(urlPatterns = "/*")
 public class AuthFilter implements Filter {
-
-    private List<String> pathFilters = Arrays.asList(new String[]{"", ""});
 
     public AuthFilter() {
     }
@@ -30,23 +25,31 @@ public class AuthFilter implements Filter {
 
         System.out.println("AuthFilter doFilter");
 
-        String uri = ((HttpServletRequest) request).getRequestURI();
-        String path = StringUtils.substringAfterLast(uri, "/");
-        if (!pathFilters.contains(path)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-        HttpSession session = ((HttpServletRequest) request).getSession();
-        User user = (User) session.getAttribute("PRINCIPAL");
-        if (user != null) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpSession session = req.getSession(false);
+        HttpServletResponse res = (HttpServletResponse) response;
 
-        ((HttpServletResponse) response).sendRedirect("jsp/pages/login.jsp");
+        String loginURI = req.getContextPath() + "/login";
+        String regURI = req.getContextPath() + "/reg";
+
+        boolean loggedIn = session != null
+                && session.getAttribute("login") != null
+                && session.getAttribute("status") != Client.Status.BLOCKED;
+
+        String url = req.getRequestURI();
+        boolean loginRequest = url.equals(loginURI);
+        boolean regRequest = url.equals(regURI);
+        boolean libUsed = url.length() >= 5 && url.substring(0, 5).equals("/lib/");
+
+        if (loggedIn || loginRequest || regRequest || libUsed) {
+            filterChain.doFilter(request, response);
+        } else {
+            res.sendRedirect(loginURI);
+        }
     }
 
     @Override
     public void destroy() {
     }
 }
+

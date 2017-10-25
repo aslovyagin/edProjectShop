@@ -11,7 +11,7 @@ public class CartDao {
     private ConnectionPool pool = ConnectionPool.getInstance();
 
     public Cart get(String login) {
-        int currentCartIdByLogin = getCurrentCartIdByLogin(login);
+        Integer currentCartIdByLogin = getCurrentCartIdByLogin(login);
 
         return (currentCartIdByLogin != -1)
                 ? getCartById(currentCartIdByLogin)

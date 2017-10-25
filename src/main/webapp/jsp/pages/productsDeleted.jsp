@@ -1,18 +1,14 @@
-<%@ page import="data.daoImpl.ProductDao" %><%--
-  Created by IntelliJ IDEA.
-  User: allexeyVS
-  Date: 16.10.17
-  Time: 4:20
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="data.daoImpl.ProductDao" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Title</title>
+    <meta charset="utf-8">
+    <title>all products deleted</title>
+    <link rel="stylesheet" href="/lib/css/main.css">
 </head>
-<body>
-<%= new ProductDao().deleteAll() %>
-<h1>Все записи удалены</h1>
-
+    <body>
+    <%= new ProductDao().deleteAll() %>
+    <h1>Все записи удалены</h1>
 </body>
 </html>

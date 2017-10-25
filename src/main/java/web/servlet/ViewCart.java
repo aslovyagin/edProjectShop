@@ -1,7 +1,6 @@
 package web.servlet;
 
 import model.Cart;
-import model.User;
 import service.CartService;
 
 import javax.servlet.ServletConfig;
@@ -12,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/ViewCart")
+@WebServlet("/cart")
 public class ViewCart extends HttpServlet {
 
     @Override
@@ -41,14 +40,14 @@ public class ViewCart extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String login = User.class.cast(request.getSession().getAttribute("PRINCIPAL")).getLogin();
+        String login = (String) request.getSession().getAttribute("login");
         Cart cart = CartService.getOrder(login);
 
         request.setAttribute("clientProducts", cart.getClientProducts());
         request.setAttribute("totalPrice", CartService.getTotalPrice(cart));
         request.setAttribute("totalCount", CartService.getTotalCount(cart));
 
-        request.getRequestDispatcher("jsp/pages/cart.jsp")
+        request.getRequestDispatcher("/jsp/pages/cart.jsp")
                 .forward(request, response);
     }
 }
