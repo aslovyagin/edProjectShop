@@ -5,6 +5,7 @@
             <%@ page import="data.daoImpl.ProductDao" %>
                 <%@ page import="model.User" %>
                     <%@ page import="data.daoImpl.UserDao" %>
+                    <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,8 +13,8 @@
     <title>Добро пожаловать, JSP!</title>
     <link rel="stylesheet" type="text/css" href="lib/css/theme.css">
 </head>
-
 <body>
+    <tags:navbar/>
     <div class="form-style">
         <h1>Добро пожаловать!</h1>
 

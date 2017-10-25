@@ -23,4 +23,10 @@ public class ClientService {
                 ? client.getStatus()
                 : Client.Status.BLOCKED;
     }
+
+    public static void block(String login) {
+        Client client = new ClientDao().get(login);
+        client.setStatus(Client.Status.BLOCKED);
+        new ClientDao().update(client);
+    }
 }

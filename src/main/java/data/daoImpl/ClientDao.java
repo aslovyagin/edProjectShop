@@ -63,6 +63,7 @@ public class ClientDao implements DaoInterface<Client, String> {
             return ps.executeUpdate() == 1;
 
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

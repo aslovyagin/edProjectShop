@@ -1,6 +1,7 @@
 <%@ page import="model.Product" %>
 <%@ page import="data.daoImpl.ProductDao" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +12,7 @@
     </head>
 </head>
 <body>
+    <tags:navbar/>
     <%
         Product product = new Product();
         product.setTitle(request.getParameter("title"));

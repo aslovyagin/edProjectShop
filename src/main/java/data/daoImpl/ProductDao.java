@@ -54,7 +54,7 @@ public class ProductDao implements DaoInterface<Product, Integer> {
                              "VALUES (?, ?, ?)")) {
 
             ps.setString(1, product.getTitle());
-            ps.setString(2, String.valueOf(product.getPrice()));
+            ps.setDouble(2, product.getPrice());
             ps.setString(3, product.getDescription());
 
             return ps.executeUpdate() == 1;
@@ -68,11 +68,11 @@ public class ProductDao implements DaoInterface<Product, Integer> {
     public boolean update(Product product) {
         try (Connection con = pool.getConnection();
              PreparedStatement ps = con.prepareStatement(
-                     "UPDATE user SET (title, price, description) = " +
+                     "UPDATE product SET (title, price, description) = " +
                              "(?, ?, ?) WHERE id = " + product.getId())) {
 
             ps.setString(1, product.getTitle());
-            ps.setString(2, String.valueOf(product.getPrice()));
+            ps.setDouble(2, product.getPrice());
             ps.setString(3, product.getDescription());
 
             return ps.executeUpdate() == 1;

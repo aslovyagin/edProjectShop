@@ -18,6 +18,11 @@ public class RegService {
         Client client = new Client(login, lastName, firstName, Client.Status.ACTIVE);
         User user = new User(login, password);
 
-        return new ClientDao().insert(client) && new UserDao().insert(user);
+        if (new ClientDao().insert(client) && new UserDao().insert(user)) {
+            CartService.createCartByLogin(client.getLogin());
+            return true;
+        } else
+            return false;
+
     }
 }

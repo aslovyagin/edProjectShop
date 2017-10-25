@@ -5,25 +5,23 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>login</title>
+    <title>addition</title>
     <link rel="stylesheet" href="/lib/css/main.css">
 <body>
     <tags:navbar/>
 
     <header>
-        <div>Log In</div>
+        <div>Add New Product To Database</div>
     </header>
 
     <div class="form-style">
-        <form action="/login" method="POST">
-            <input type="text"   placeholder="login"     name="login">
-            <input type="text"   placeholder="password"  name="password">
-            <input type="submit" value="Log In">
+        <form action="/addProductToDB" method="POST">
+            <input type="text"   placeholder="title"       name="title">
+            <input type="text"   placeholder="price"       name="price">
+            <input type="text"   placeholder="description" name="description">
+            <input type="submit" value="Add">
         </form>
     </div>
 
-    <div class="cause">
-        <c:out value="${cause}"></c:out>
-    </div>
 </body>
 </html>

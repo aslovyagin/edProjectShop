@@ -45,7 +45,9 @@ CREATE TABLE cart_product (
                   ON DELETE CASCADE,
     product_id    INT FOREIGN KEY REFERENCES product (id)
                   ON DELETE CASCADE,
-    product_count INT NOT NULL
+    product_count INT NOT NULL,
+
+    CONSTRAINT cart_product_uq UNIQUE (cart_id, product_id)
 );
 
 

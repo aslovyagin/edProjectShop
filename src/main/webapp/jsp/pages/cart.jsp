@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="/lib/css/main.css">
 </head>
 <body>
+    <tags:navbar/>
     <header>
         <div>Cart</div>
     </header>
@@ -28,7 +30,14 @@
                     <td><c:out value="${clientProduct.product.price}"></c:out> ₽</td>
                     <td><c:out value="${clientProduct.count}"></c:out></td>
                     <td><c:out value="${clientProduct.sum}"></c:out> ₽</td>
-                    <td><button class="minus">1</button><button class="plus">1</button></td>
+                    <td>
+                        <form method="post" action="/decrementProduct">
+                            <button class="minus" type="submit" name="productId" value="<c:out value="${clientProduct.product.id}"></c:out>">1</button>
+                        </form>
+                        <form method="post" action="/incrementProduct">
+                            <button class="plus" type="submit" name="productId" value="<c:out value="${clientProduct.product.id}"></c:out>">1</button>
+                        </form>
+                    </td>
                 </tr>
             </c:forEach>
                 <tr>
@@ -43,7 +52,11 @@
                     <td></td>
                     <td><c:out value="${totalCount}"></c:out></td>
                     <td><c:out value="${totalPrice}"></c:out> ₽</td>
-                    <td><button class="buy">1</button></td>
+                    <td>
+                        <form method="post" action="/buy">
+                            <button class="buy" type="submit">1</button>
+                        </form>
+                    </td>
                 </tr>
             </tbody>
         </table>

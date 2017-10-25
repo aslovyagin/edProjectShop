@@ -41,7 +41,7 @@ public class ViewCart extends HttpServlet {
             throws ServletException, IOException {
 
         String login = (String) request.getSession().getAttribute("login");
-        Cart cart = CartService.getOrder(login);
+        Cart cart = CartService.getCart(login);
 
         request.setAttribute("clientProducts", cart.getClientProducts());
         request.setAttribute("totalPrice", CartService.getTotalPrice(cart));

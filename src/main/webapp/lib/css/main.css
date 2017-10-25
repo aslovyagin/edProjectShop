@@ -14,11 +14,141 @@ html, body, div, p, table, a, ol, ul, li {
     padding: 0;
     margin: 0;
 }
+body, li a  {
+    background-color: #23241f;
+    color: #ffffff;
+    font-family: 'Inconsolata', monospace;
+}
+ul {
+    list-style-type: none;
+    overflow: hidden;
+    /*background-color: #333333;*/
+    width: 7rem;
+    /*background-color: #f1f1f1;*/
+    height: 100%; /* Full height */
+    position: fixed; /* Make it stick, even on scroll */
+    overflow: auto; /* Enable scrolling if the sidenav has too much content */
+}
+li {
+    float: left;
+    width: 7rem;
+}
+li a {
+    font-family: trebuchet ms;
+    display: block;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+    background-color: #333333;
+}
+li a:hover {
+    /*background-color: #111111;*/
+    background-color: #23241f;
+     display: block;
+}
 header > div {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     font-style: bold;
     text-align: center;
-    margin: 1rem 1rem 2rem;
+    padding: 1rem 1rem 2rem;
+}
+div.cause {
+        font: 95% Arial, Helvetica, sans-serif;
+        max-width: 400px;
+        margin: 10px auto;
+        padding: 16px;
+        text-align: center;
+        color: red;
+}
+.form-style form {
+        font: 95% Arial, Helvetica, sans-serif;
+        /* max-width: 400px; */
+        margin: 10px auto;
+        padding: 16px;
+        width: 20rem;
+}
+form {
+    display: inline;
+}
+.form-style form {
+    display: block;
+}
+.form-style input,
+.form-style textarea,
+.form-style select
+{
+   /* -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    outline: none;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background: #fff;
+    padding: 3%;
+
+    border: 1px solid #ccc;
+    width: 100%;*/
+    width: 20rem;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+    color: #555;
+    font: 95% Arial, Helvetica, sans-serif;
+    text-align:center;
+}
+.form-style input[type="submit"] {
+  /*  box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    /* width: 100%;
+         padding: 3%;
+*/
+    padding: 1rem;
+    width: 20rem;
+    margin-left: 2px;
+    background-color: #43D1AF;
+    background-color: #3571c8;
+    border-bottom: 2px solid #30C29E;
+    border: 2px solid #3571c8;
+    /*border-bottom-style: none;
+    border-top-style: none;
+    border-right-style: none;
+    border-left-style: none;*/
+    color: #fff;
+}
+.form-style input:focus,
+.form-style textarea:focus,
+.form-style select:focus
+{
+   /* box-shadow: 0 0 5px #43D1AF;
+    box-shadow: 0 0 10px #3571c8; */
+    /*padding: 3%;*/
+
+    border: 1px solid #43D1AF;
+    border: 2px solid #3571c8;
+}
+.form-style input[type="submit"] {
+    border: 4   px solid #3571c8;
+}
+.form-style input[type="submit"]:hover {
+    background-color: #2EBC99;
+    background-color: #3066b4;
+}
+.form-style ::-webkit-input-placeholder {
+   text-align: center;
+}
+
+.form-style :-moz-placeholder { /* Firefox 18- */
+   text-align: center;
+}
+
+.form-style ::-moz-placeholder {  /* Firefox 19+ */
+   text-align: center;
+}
+
+.form-style :-ms-input-placeholder {
+   text-align: center;
 }
 body {
     background-color: #23241f;
@@ -41,11 +171,13 @@ th {
 }
 table.cart > tbody > tr:not(:nth-last-of-type(2)):hover {
     font-size: 1.15rem;
-	background-color: #3D3F36;
+	/* background-color: #3D3F36; */
+	background-color: #333333;
 }
 table:not(.cart) > tbody > tr:hover {
     font-size: 1.15rem;
-	background-color: #3D3F36;
+	/* background-color: #3D3F36; */
+	background-color: #333333;
 }
 tr.total td {
     color: l;
@@ -123,6 +255,18 @@ button:before {
     color:#fff;
     background-color:#3e87ec;
     /* background-color:#04910c; */
+}
+button[class="block"]:before {
+     content: "block";
+}
+button[class="block"] {
+     width: 4rem;
+}
+button[class="create"]:before {
+     content: "create";
+}
+button[class="create"] {
+     width: 4rem;
 }
 button[class="add"]:before {
      content: "add to cart";
